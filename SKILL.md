@@ -1,88 +1,80 @@
 ---
 name: own-voice
-description: Humanizer that rewrites AI-sounding text in YOUR voice, not a generic "human" one. English and Ukrainian. Use when text reads like AI, when a detector flags it, or when the user says "humanize", "humanizer", "de-AI this", "make it sound human", "lower my AI score", "rewrite it like I'd say it", "звучить як ШІ", "хуманайзер", "перепиши по-людськи", "прибери AI". First run offers a short voice calibration so it learns how the user actually writes; later runs reuse that profile. Never prints a "% human" score — it reports what it changed and links out to real detectors instead.
+description: Rewrites text in YOUR voice — the one it learned from you — instead of a generic "assistant" voice. Use when an AI draft doesn't sound like you, when you wrote something fast and want it in your own voice rather than a polished corporate one, or when the user says "in my voice", "make it sound like me", "rewrite this the way I'd say it", "de-AI this", "звучить як ШІ", "перепиши моїм голосом", "зроби як я". First run offers a short voice calibration so it learns how you actually write; later runs reuse that profile. Honest scope: this is a voice tool, not an AI-detector beater — it never prints a "% human" score and never promises to fool a detector, because a model editing text can't do that reliably (we tested it). What it does reliably is make text sound like the specific person it learned.
 ---
 
 # own-voice
 
-Every other humanizer makes text *generically* human. This one makes it **yours**.
+Rewrites text so it sounds like **you** — the specific person the skill has learned — not like an assistant, and not like a generic "human".
 
-Two things make that work, and neither is a longer word-list:
+## What this is, and what it isn't
 
-1. **A voice profile** — built from a calibration the user takes once.
-2. **A separate critic** — an independent pass with the power to reject. The writer never grades its own homework.
+**It is** a voice tool. You calibrate it once; after that it rewrites any text — an AI draft, a rushed note, a stiff email — into the way *you* actually write.
+
+**It is not** an AI-detector beater. It never prints a "% human" and never promises to slip past GPTShield or JustDone or anything else. We built that first, tested it on real detectors, and the honest result is: a model editing existing text can't reliably score as human — only a person writing from scratch does. So we stopped selling that and kept the part that works: sounding like you.
+
+If your text stops sounding like an assistant and starts sounding like you, that's the win. Whether some detector agrees is not our claim to make.
 
 ## Iron rules
 
-- **Cut, don't polish.** Target **−30%**, floor −40%, ceiling +10%. A rewrite that keeps the original's length keeps its shape, and shape is what gets it flagged. This is the rule the first build got wrong; everything else is downstream of it.
-- **Never output a percentage.** You have no detector. A number you invent is a lie, and it's the exact thing this skill exists to avoid. Report what you *changed*; link the user to a real detector.
-- **Never invent.** No fact, number, example, or closing thought that wasn't in the input. Facts survive unchanged. Explanatory sentences do not have to.
-- **Voice, not polish.** You are rewriting *texture*, not the message. Never make it cleverer, more corporate, or more "yours".
+- **Their voice, not a better voice.** The profile is the target. If they write plain, you write plain. Never upgrade them into someone wittier or more corporate. The number one failure here is quietly making everything sound like a good copywriter.
+- **Never invent.** No fact, number, name, example, or closing thought that wasn't in the input. Facts survive unchanged.
+- **Don't perform.** Writing that *tries* to look human — a fragment every other line, forced slang, staccato chopping — reads worse than the draft did. We measured it. A lightly-edited natural sentence beat a heavily "improved" punchy one every time. Restraint wins.
+- **Cut toward how much they'd actually say.** People are more economical in their own voice than an assistant is. Trim what they wouldn't bother saying — but as voice-matching, not as a trick, and never past the point where it reads naturally.
 - **English and Ukrainian only.** Anything else — say so and stop.
 
 ## Flow
 
 ```
 1. Detect language        → EN or UK. Neither → stop.
-2. Load the voice profile → missing? See "No profile yet" below.
-3. Load the tell-list     → references/tells-en.md or references/tells-uk.md
+2. Load the voice profile → missing? See "No profile yet".
+3. Load the reference     → references/tells-en.md or references/tells-uk.md
+                            (generic assistant patterns to strip first)
 4. WRITE                  → references/writer.md
 5. CRITIQUE               → references/critic.md   (see "Running the critic")
 6. APPROVE? no → back to 4, with the critic's fixes. Max 3 passes.
 7. Output                 → see "Output"
 ```
 
-After a third failed pass, stop. Hand over the best version and say plainly what you could not fix without damaging the meaning. Do not pretend it passed.
+After a third failed pass, stop. Hand over the best version and say plainly what you couldn't make sound like them without damaging the meaning. Don't pretend it landed.
 
 ### Finding the voice profile
 
-Look, in order:
-
-1. `voice/profile.md` inside this skill (Claude Code — it persists on disk).
-2. The project's context — on claude.ai the profile lives in Project knowledge or the project instructions, because a skill's VM is wiped between conversations.
-3. Anything the user pasted into this conversation.
+In order: `voice/profile.md` in this skill (Claude Code, persists on disk) → the project's context (on claude.ai the profile lives in Project knowledge) → anything pasted into this conversation.
 
 ### No profile yet
 
-Say this, and mean it:
+The profile is the whole point — without it you're just a generic editor. Say:
 
-> I can clean the AI out of this right now. But to make it sound like **you** rather than like a generic human, I need about 5 minutes first: 10 short tasks, and I'll learn how you actually write.
+> I can clean this up right now. But to make it sound like **you** and not a generic voice, I need about 5 minutes first: 10 short tasks, and I'll learn how you actually write.
 >
-> Want to calibrate now, or just clean this one up?
+> Calibrate now, or just do a plain pass on this one?
 
-If they want to calibrate → `references/calibration.md`.
-If they want it now → rewrite without a profile, strip the tells, and say the result is de-AI'd but not yet *theirs*.
-
-Never force the calibration. Never skip offering it.
+Calibrate → `references/calibration.md`. Plain pass → strip the generic patterns, but tell them it's de-assistant'd, not yet *theirs*.
 
 ### Running the critic
 
-Same rules either way — `references/critic.md`. Only the delivery changes:
+Same rules either way — `references/critic.md`. Only delivery changes:
 
-- **Claude Code** (the Agent tool exists): dispatch the `humanize-critic` subagent. This is the better path. The critic boots with a clean context and physically cannot see how the writer reasoned, so its independence is structural rather than a promise.
-- **claude.ai / anywhere else**: run it as a distinct pass yourself. Read `references/critic.md`, then re-read only the original, the rewrite, and the profile — deliberately as a stranger. Not "does this look fine to me", but "would I reject this".
+- **Claude Code** (Agent tool exists): dispatch the `humanize-critic` subagent. It boots clean and can't see the writer's reasoning — the independence is structural, not a promise.
+- **claude.ai / elsewhere**: run it as a distinct pass. Read `references/critic.md`, then re-read only the original, the rewrite, and the profile — as a stranger asking "does this sound like the person in the profile, or like an assistant wearing their coat?"
 
 ## Output
 
-In this order, every time:
+1. The rewritten text in a **clean ``` code block** — no markdown inside, paste-ready.
+2. **In your voice:** what you changed to match them, named against profile markers. `swapped "дедлайн"→"строк" · kept your commas, dropped the em-dashes · folded the punchy ending back in the way you do`
+3. **Before → after:** two or three of the sharpest voice swaps. This is what teaches them to spot the difference themselves.
+4. **Left alone:** facts, and any line that was already theirs.
+5. **The real test:** read it. Does it sound like you? If one line doesn't, tell me which — I'll fix it and learn the correction.
 
-1. The rewritten text in a **clean ``` code block** — no markdown inside, no blockquotes. It has to paste straight into wherever it's going.
-2. **Changed:** what you actually did. `killed 4 em-dashes · broke 2 rule-of-threes · cut 3 hedges · restored contractions`
-3. **Before → after:** two or three of the sharpest line-level swaps. This is what teaches the user to write this way themselves.
-4. **Left alone:** anything you kept, and why — usually because cutting it would have cost a fact or the voice.
-5. **Check it yourself:** [GPTZero](https://gptzero.me) — the one we recommend, and the only one we've seen read Ukrainian sanely.
+No score. If they ask about detectors, tell them the truth: this is a voice tool, not a detector beater; if they want to check AI-detection anyway, GPTZero reads Ukrainian more sanely than JustDone — but the only test we stand behind is whether it sounds like them.
 
-No score. Not even a hedged one. If the user asks for a number, tell them the truth: you have no detector, any number would be made up, and the link above takes ten seconds.
+## When a line doesn't sound like them
 
-⚠️ If the text is Ukrainian and they mention JustDone: tell them it's unreliable here. We measured it rating an authentically human Ukrainian text at 70% AI, while GPTZero called the same text 98% human. Point them at GPTZero.
+Don't reshuffle and hope. Ask which line, and fix the specific thing:
 
-## When the user comes back with a bad score
+- Wrong word for them → swap to theirs (and note it for the profile).
+- Too polished → strip a layer, let it be plainer.
+- Too performed → un-chop it, let it flow the way they actually write.
 
-Do not reshuffle words and hope. Escalate deliberately, in this order:
-
-1. **Cut more.** Almost always the answer. If you're at −15%, go to −30%. Find the sentence that explains another sentence and delete it.
-2. Break the rhythm harder — the length *spread* is the signal, not the average.
-3. Remove a tidy structure entirely rather than softening it.
-4. Let a real digression or fragment in.
-
-Polish is what you sacrifice. Voice and facts are what you protect. In that order, always.
+Every correction they give is profile signal. Fold it back in — that's how the voice sharpens over time.

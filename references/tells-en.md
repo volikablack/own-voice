@@ -1,18 +1,16 @@
-# English tells
+# The English no-one voice
 
-The kill-list. Writer hunts these; critic fails the text on survivors.
-
-AI prose is too smooth, too even, too balanced. Almost everything below is a symptom of that one disease.
+Patterns that belong to no person — the way an assistant writes, not a human. This is **step 1**: strip the generic no-one voice so the person's voice from the profile can go on top. On its own this file makes text "generically human", not *theirs* — so it's only half the job.
 
 ## ⚠️ Read this first
 
-**Compression outweighs this entire file.** We measured it: a rewrite with a spotless vocabulary but the original's length got classified AI generated. A human's rewrite of the same text, 34% shorter, scored 98% human.
+**Don't chop text to look human.** Measured, on real detectors and real reading: short punchy fragments read *more* artificial, not less — because that staccato is exactly what every AI humanizer produces. The most human-scoring sentence in our tests was the longest, most flowing one, barely edited, with the person's speech repetition left in.
 
-This file removes the smell. The writer removes the length. Clear every item below and hand back something the same size, and you've lost.
+Compression means "say as much as the person would actually say", not "shatter it into pieces". Flow beats punchiness.
 
-## Rhythm — the number one signal among tells
+## Rhythm — but not choppiness
 
-Still ranks under compression. Long explanatory sentences are what detectors highlight first, and cutting them fixes rhythm for free.
+Hit the profile's rhythm: varied lengths, natural flow. Don't shatter a sentence that was already fine.
 
 - **Uniform sentence length.** Vary hard. Three words next to thirty. Real writing is lumpy.
 - **Every sentence a complete grammatical clause.** Add fragments. On purpose. Like that.

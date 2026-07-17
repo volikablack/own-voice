@@ -1,6 +1,6 @@
 # Your voice profile lives here
 
-`profile.md` in this folder is the whole point of own-voice. Without it you get de-AI'd text. With it you get *your* text.
+`profile.md` in this folder is the whole point of own-voice. Without it you get a generic edit. With it you get *your* text.
 
 You don't write it by hand. Run the skill, take the calibration, it writes it for you and shows it to you first.
 

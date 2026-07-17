@@ -1,93 +1,48 @@
 # own-voice
 
-**An AI humanizer that writes in *your* voice instead of a generic one.** English and Ukrainian. Runs as a Skill in Claude Code and claude.ai.
+**A Claude skill that rewrites text in *your* voice** — the one it learned from you — instead of a generic assistant voice. English and Ukrainian. Works in Claude Code and claude.ai.
 
 [Українською нижче ↓](#own-voice-українською)
 
 ---
 
-## The problem with humanizers
+## What it does
 
-Paste AI text into any humanizer and you get back text that isn't a robot. It also isn't you. It's an average person, smoothed flat until nobody's fingerprints are on it. Detector score improves, and your writing quietly stops being yours.
+You calibrate it once — ten short tasks, about five minutes — and it learns how you actually write. After that, hand it anything: an AI draft that doesn't sound like you, a rushed email, a stiff paragraph. It gives it back in your voice. Your rhythm, your words, your punctuation, the way you open and close.
 
-Most of them do one of two things. Either they invent a "94% human" number they have no way of knowing, or they run your text through a detector and shuffle words until the bar turns green. The first is a lie. The second optimizes for a detector instead of for a reader.
+Not a generic "human" voice. Yours specifically.
 
-own-voice does neither.
+## What it is *not* — and the honest story behind that
 
-## What's different
+This started as an AI-humanizer: paste AI text, get back something that beats detectors. We built the whole thing — writer, independent critic, Ukrainian and English pattern-lists — and then we tested it on real detectors with a real voice. Here's what actually happened:
 
-**It learns how you actually write.** Once, up front, you take a short calibration: ten tasks, about five minutes. It writes a voice profile from your answers. Every rewrite after that targets *you*, not "human".
-
-**The writer doesn't grade itself.** A separate critic reviews every rewrite with the power to reject it. Seven checks, and it sends the text back until it passes. In Claude Code the critic runs as a subagent with a clean context, so it physically can't see how the writer reasoned. That independence is the point.
-
-**No made-up scores.** It has no detector, so it never prints a percentage. It tells you what it changed, shows you the sharpest before/after swaps, and links you to a real detector to check yourself. Ten seconds, and the number is true.
-
-**It also knows Ukrainian.** Nearly every humanizer is English-only. This one ships a full Ukrainian tell-list: the calques, the officialese, the "не просто X, а Y", the rule-of-three that Ukrainian AI text falls into.
-
-## Why the calibration and not "paste me some samples"
-
-Samples are contaminated. What people hand over has usually been through a model or an editor, so you learn the editor.
-
-The calibration hands you a fixed, deliberately smooth baseline and asks you to say the same thing your way. Since the neutral version is known, **every deviation from it is pure voice signal.** Nothing in the answer is noise.
-
-Three groups, and you can stop after any of them:
-
-| Group | What it measures |
+| Text | GPTZero |
 |---|---|
-| 5 short tasks | Character. Blunt or soft, emoji or dry, apologizes or holds the line. |
-| 3 long tasks | **Rhythm.** The main event. Uniform rhythm is the #1 AI signal, and it's invisible in a single sentence. |
-| 2 open questions | Your blank page. Your own subject, your own words, no baseline from us. |
+| A person, writing by hand | **98% human** |
+| Our skill's rewrite of the same idea | **5–47% human** — flagged AI |
 
-## The one thing we got wrong, and what it taught us
+We tried it two ways — barely edited, heavily edited, compressed, chopped. It kept scoring AI. And the data pointed somewhere uncomfortable but clear: **a model editing existing text can't reliably read as human. Only a person writing from scratch does.** The one sentence of ours that *did* score human was the one we'd barely touched — long, flowing, with the speech repetition left in. Everything we "improved" — the punchy fragments, the inserted slang — scored worse.
 
-If you take a single idea from this repo, take this one. It cost us a rebuild.
+So we stopped selling the thing we couldn't deliver. No detector promises. No "% human". No screenshots of a green gauge.
 
-The first version had a rule: preserve length within ±15%. Sensible-sounding. Padding is an AI tell, so don't pad.
+What survived is the part that actually works, and that nobody else does: **making text sound like a specific person.** That was always the interesting half. Now it's the whole product.
 
-Then we tested it. Same detector, same language, same source text:
+## Why "your voice" and not "human"
 
-| | Length vs original | GPTZero |
-|---|---|---|
-| A person, rewriting by hand | **−34%** | **98% human** |
-| Our v1, rules obeyed perfectly | −8% | 47% human — *classified AI generated* |
+Every humanizer makes text *generically* human — smoothed flat until nobody's fingerprints are on it. That's the failure state, not the goal. own-voice does the opposite: it learns one person and writes as them.
 
-The v1 output had a clean vocabulary. Every tell on the list, gone. It still got flagged, because **we swapped the words and kept the skeleton, and the skeleton is the signal.**
+The engine is a calibration. It hands you a fixed, deliberately bland baseline and asks you to say the same thing your way. Since the neutral version is known, **every deviation from it is pure voice signal.** Then a separate critic checks the rewrite against your profile and rejects anything that sounds like an assistant instead of you.
 
-Look at one idea, both versions:
+## What we learned building it (useful even if you never install it)
 
-> **Person:** «ти робиш, а в замовника своє "красиво"» — 6 words
-> **Our v1:** «ти робиш красиво, а виявляється, шо красиво для неї означало щось геть інше» — 12 words
-
-Same meaning. Twice the words. The long one got highlighted as an AI sentence; the short one didn't.
-
-A model explains to the end, because it's afraid of being misunderstood. A person says half and trusts you for the rest. **That trust is what reads as human** — only someone who knows their reader takes that risk.
-
-So the rule inverted. Target −30%. Floor −40%. Cutting isn't damage, it's the whole move, and everything else in this repo is downstream of it.
-
-Rhythm still matters — the **spread** of sentence lengths, not the average — but compressing fixes rhythm for free.
-
-## Detectors: what we actually measured
-
-Same Ukrainian text, written by a human, by hand:
-
-| Detector | Verdict |
-|---|---|
-| GPTZero | 98% human ✅ |
-| JustDone | **70% AI** ❌ |
-
-JustDone rates authentic human Ukrainian as mostly AI. Its breakdown even reports in plagiarism terms ("23% Identical", "17% Paraphrased AI"), which suggests it's answering a different question than the one you're asking.
-
-**So: use [GPTZero](https://gptzero.me).** For Ukrainian especially. If a detector flags your own unedited writing as AI, it isn't measuring what it claims to, and tuning your prose to please it makes your writing worse, not more human.
-
-## Over-correction
-
-The failure nobody talks about. Push a humanizer hard enough and it starts *performing* humanity: a fragment every other line, manufactured asides, deliberate typos. Tell-list clean, unreadable text. Worse than the AI draft.
-
-The critic here cuts both ways. One check hunts AI smell; another one rejects text that's trying too hard. The target is a person writing normally, not a person doing an impression of a person.
+- **Chopping text into punchy fragments makes it sound *more* artificial, not less.** That staccato rhythm is what every AI tool produces. Flowing sentences with natural repetition read more human.
+- **Compression isn't a trick, it's just voice.** People say less in their own voice than an assistant does — but shrink toward how *they'd* say it, don't shatter it.
+- **Word choice betrays the draft.** If the AI wrote «бриф» and you'd say «комунікація», leaving its word in is the tell. Voice means *your* vocabulary, not the model's.
+- **AI detectors disagree wildly, and mislead.** On the exact same human-written Ukrainian text: GPTZero said 98% human, JustDone said 70% AI. If a detector flags your own unedited writing, it isn't measuring what it claims. Don't tune your writing to please it.
 
 ## Install
 
-Skills don't sync between surfaces, so pick the one you use. Both, if you use both.
+Skills don't sync between surfaces, so pick the one you use.
 
 ### Claude Code
 
@@ -95,7 +50,7 @@ Skills don't sync between surfaces, so pick the one you use. Both, if you use bo
 git clone https://github.com/volikablack/own-voice ~/.claude/skills/own-voice
 ```
 
-That's it. Say "humanize this" and it triggers.
+Say "rewrite this in my voice" and it triggers.
 
 ### claude.ai
 
@@ -106,63 +61,68 @@ cd own-voice && make zip
 
 Then: **Settings → Features → Skills → upload `dist/own-voice.zip`**
 
-Needs Pro, Max, Team or Enterprise with code execution turned on. Free accounts can't install custom Skills at all. That's a platform limit, not ours.
-
-Your profile goes in a Project, since a skill's VM is wiped between chats. See [voice/README.md](voice/README.md).
+Needs Pro, Max, Team or Enterprise with code execution on. Free accounts can't install custom Skills — a platform limit, not ours. Your profile goes in a Project (a skill's VM is wiped between chats); see [voice/README.md](voice/README.md).
 
 ## Use
 
 ```
-humanize this: <your text>
+rewrite this in my voice: <your text>
 ```
 
-Or `de-AI this`, or `rewrite it like I'd say it`, or just paste and say it sounds like AI.
-
-First run offers the calibration. Take it. That's the whole product. Skip it and you get a competent de-AI'er, which is what everything else already does.
+Or "make it sound like me", or "de-AI this and use my words". First run offers the calibration. Take it — without a profile you get a generic editor, which is the thing we're specifically not.
 
 ## What you get back
 
-1. The rewritten text in a clean code block, ready to paste.
-2. **Changed:** `killed 4 em-dashes · broke 2 rule-of-threes · cut 3 hedges · restored contractions`
-3. **Before → after:** the sharpest line-level swaps, so you start writing this way yourself.
-4. **Left alone:** what it kept, and why.
-5. A link to [GPTZero](https://gptzero.me) to check for real.
+1. The rewritten text in a clean code block, paste-ready.
+2. **In your voice:** what changed to match you, named against your profile.
+3. **Before → after:** the sharpest voice swaps, so you start spotting the difference yourself.
+4. **Left alone:** facts, and lines that were already yours.
+5. **The real test:** you read it. Does it sound like you? Tell it which line doesn't, and it fixes that and learns.
+
+## The calibration
+
+Three groups, stop after any of them:
+
+| Group | What it captures |
+|---|---|
+| 5 short tasks | Character — blunt or soft, emoji or dry, apologizes or holds. |
+| 3 long tasks | Rhythm — how your sentences actually run and where they break. |
+| 2 open questions | Your blank page — your subject, your words, no baseline from us. |
+
+Samples of your own writing are welcome on top, but the calibration is the core: samples are usually contaminated (already edited, already AI-touched), while a known baseline makes your every deviation clean signal.
 
 ## Honest limits
 
-- **No score, ever.** By design. If you want a number, the link is right there.
-- **v1 failed the first real test.** The numbers in the table above are our own. We shipped the fix, not the excuse — but if you find it still keeping too much shape, that's a bug and we want to hear it.
-- **English and Ukrainian only.** Anything else, it says so and stops.
-- **It won't save a text with nothing in it.** Humanizing an empty argument gives you a well-written empty argument.
-- **Facts are held, not improved.** It won't invent the specific detail your copy is missing. That's on you.
-- **claude.ai needs a paid plan** with code execution. Not our call.
-- **Detectors move.** Anything that claims a guaranteed score is selling you something.
+- **No detector score, ever.** By design, and now you know why.
+- **It sounds like you; it doesn't promise to fool anything.** Different claim, and the only one we'll stand behind.
+- **English and Ukrainian only.** Else it says so and stops.
+- **Facts are held, not improved.** It won't invent the detail your text is missing.
+- **The profile is everything.** Skip the calibration and you get a competent generic editor — which is exactly what we didn't want to ship.
+- **claude.ai needs a paid plan** with code execution.
 
 ## How it fits together
 
 ```
 your text
     ↓
-[WRITER]  ← voice profile + tell-list for the language
+[WRITER]  ← strip the assistant voice, then apply YOUR voice from the profile
     ↓
-[CRITIC]  ← original + rewrite + profile. Never the writer's reasoning.
-    ↓
+[CRITIC]  ← does this sound like the person, or an assistant in their coat?
+    ↓        (original + rewrite + profile. never the writer's reasoning.)
 APPROVE? ──no──> fixes ──> back to the writer   (max 3 passes)
     ↓ yes
 output
 ```
-
-Three failed passes and it stops, hands you the best version, and says plainly what it couldn't fix without damaging your meaning. It doesn't pretend.
 
 ```
 own-voice/
 ├── SKILL.md                    entry point
 ├── references/
 │   ├── writer.md               rewriting rules
-│   ├── critic.md               the seven checks
+│   ├── critic.md               the six voice checks
 │   ├── calibration.md          the ten tasks, EN + UK
-│   ├── tells-en.md             English kill-list
-│   └── tells-uk.md             Ukrainian kill-list
+│   ├── tells-en.md             generic assistant patterns (English)
+│   └── tells-uk.md             generic assistant patterns (Ukrainian)
 ├── agents/
 │   └── humanize-critic.md      Claude Code: the critic as a clean-context subagent
 └── voice/
@@ -172,7 +132,7 @@ own-voice/
 
 ## Licence
 
-MIT. Fork it, or just rip the tell-lists out for something of your own.
+MIT. Fork it, or just take the pattern-lists for something of your own.
 
 Built by [Valeriia Chuiko](https://valeria.digital) — AI systems, agents, automation.
 
@@ -180,90 +140,45 @@ Built by [Valeriia Chuiko](https://valeria.digital) — AI systems, agents, auto
 
 # own-voice (українською)
 
-**Хуманайзер, який пише *твоїм* голосом, а не абстрактно-людським.** Англійською й українською. Працює як Skill у Claude Code і claude.ai.
+**Claude-скіл, що переписує текст *твоїм* голосом** — тим, який вивчив у тебе — замість безликого голосу асистента. Англійською й українською. Працює в Claude Code і claude.ai.
 
-## Проблема всіх хуманайзерів
+## Що робить
 
-Кидаєш AI-текст у будь-який хуманайзер, і назад приходить текст, який уже не робот. Але й не ти. Це усереднена людина, згладжена до стану, де ніяких відбитків уже не лишилось. Оцінка детектора покращилась, а твоє письмо тихо перестало бути твоїм.
+Ти калібруєш його один раз — десять коротких завдань, хвилин п'ять — і він вчить, як ти реально пишеш. Далі кидаєш будь-що: AI-чернетку, що на тебе не схожа, поспіхом написаний лист, дерев'яний абзац. Він повертає це твоїм голосом. Твій ритм, твої слова, твоя пунктуація, як ти заходиш і закінчуєш.
 
-Більшість із них роблять одне з двох. Або малюють «94% людини», яких не мають звідки знати. Або ганяють текст через детектор і перебирають слова, поки шкала не позеленіє. Перше — брехня. Друге оптимізує під детектор, а не під читача.
+Не абстрактно-людський голос. Саме твій.
 
-Тут ні того, ні того.
+## Чим це *не* є — і чесна історія за цим
 
-## Чим відрізняється
+Починалось як AI-хуманайзер: кидаєш AI-текст, отримуєш те, що б'є детектори. Ми зібрали все — писар, окремий критик, українські й англійські списки патернів — а потім перевірили на живих детекторах живим голосом. Ось що вийшло:
 
-**Вчить, як ти реально пишеш.** Один раз на старті проходиш калібрування: десять завдань, хвилин пʼять. З твоїх відповідей складається профіль голосу. Далі кожне переписування цілиться в **тебе**, а не в «людину».
-
-**Писар не оцінює сам себе.** Кожен текст читає окремий критик, який має право відхилити — сім перевірок, і він жене назад, поки не пройде. У Claude Code критик іде сабагентом з чистим контекстом, тобто фізично не бачить, як міркував писар. У цьому весь сенс.
-
-**Жодних вигаданих цифр.** Детектора в нього нема, тому він ніколи не пише відсоток. Каже, що змінив, показує найгостріші заміни до/після, і дає посилання на живий детектор — перевір сам. Десять секунд, і число справжнє.
-
-**І він знає українську.** Майже всі хуманайзери тільки англійські. Тут повний український список tells: кальки, канцелярит, «не просто X, а Y», і те саме «по-перше/по-друге/по-третє», в яке скочується українська AI-мова.
-
-## Чому калібрування, а не «кинь свої тексти»
-
-Зразки забруднені. Те, що людина кидає, зазвичай уже пройшло через модель або редактора. Вивчиш редактора.
-
-Калібрування дає фіксовану, навмисне гладку основу й просить сказати те саме своїми словами. Нейтральний варіант відомий, тому **кожне відхилення від нього — чистий сигнал голосу.** У відповіді нема шуму.
-
-Три групи, зупинитись можна після будь-якої:
-
-| Група | Що міряє |
+| Текст | GPTZero |
 |---|---|
-| 5 коротких | Характер. Різко чи мʼяко, з емодзі чи сухо, вибачається чи тримає позицію. |
-| 3 довгих | **Ритм.** Головне: рівний ритм — сигнал AI номер один, і в одному реченні його не видно. |
-| 2 питання | Твій чистий аркуш. Своя тема, свої слова, без нашої основи. |
+| Людина, руками | **98% людини** |
+| Переписування скілом тієї ж думки | **5–47% людини** — позначено AI |
 
-## Що ми зробили не так, і чого це навчило
+Пробували двома способами — майже не чіпаючи, сильно редагуючи, стискаючи, рубаючи. Все одно AI. І дані вказали в незручний, але ясний бік: **модель, редагуючи готовий текст, не може стабільно читатись як людина. Лише людина, що пише з нуля, може.** Єдине наше речення, яке *таки* дало людину, було те, що ми майже не чіпали — довге, плавне, з живим повтором. Усе «покращене» — рубані обрубки, вставлений сленг — давало гірше.
 
-Якщо забирати з цього репо одну думку — оцю. Вона коштувала нам переробки.
+Тому ми перестали продавати те, чого не тягнемо. Жодних обіцянок детектора. Жодних «% людини». Жодних скрінів зеленої шкали.
 
-У першій версії стояло правило: тримати довжину ±15%. Звучить розумно. Набивання це AI-tell, тому не набивай.
+Вижила частина, яка справді працює і якої нема ні в кого: **зробити так, щоб текст звучав як конкретна людина.** Це завжди й було цікавою половиною. Тепер це весь продукт.
 
-Потім ми перевірили. Той самий детектор, та сама мова, той самий вихідний текст:
+## Чому «твій голос», а не «людина»
 
-| | Довжина проти оригіналу | GPTZero |
-|---|---|---|
-| Людина, переписала руками | **−34%** | **98% людини** |
-| Наша v1, правила виконані бездоганно | −8% | 47% людини — *класифіковано як AI* |
+Кожен хуманайзер робить текст *абстрактно*-людським — згладженим до стану, де відбитків уже нема. Це провал, не мета. own-voice навпаки: вчить одну людину й пише як вона.
 
-У v1 був чистий словник. Жодного tell зі списку не лишилось. І все одно завал, бо **ми поміняли слова й лишили скелет, а скелет і є сигнал.**
+Двигун — калібрування. Дає фіксовану, навмисне прісну основу й просить сказати те саме своїми словами. Нейтральний варіант відомий, тому **кожне відхилення від нього — чистий сигнал голосу.** Далі окремий критик звіряє переписане з профілем і реджектить усе, що звучить як асистент, а не як ти.
 
-Одна думка, дві версії:
+## Що ми зрозуміли, поки будували (корисне, навіть якщо не ставитимеш)
 
-> **Людина:** «ти робиш, а в замовника своє "красиво"» — 6 слів
-> **Наша v1:** «ти робиш красиво, а виявляється, шо красиво для неї означало щось геть інше» — 12 слів
-
-Той самий сенс. Удвічі більше слів. Довгу детектор підсвітив як AI-речення, коротку ні.
-
-Модель договорює до кінця, бо боїться бути незрозумілою. Людина каже половину й довіряє читачу добрати решту. **Оця довіра й читається як людське** — на такий ризик іде тільки той, хто знає свого читача.
-
-Тому правило перевернулось. Ціль −30%. Дно −40%. Різати це не втрата, це головний хід, і все інше в цьому репо стоїть на ньому.
-
-Ритм лишається важливим — саме **розкид** довжин, не середнє — але стиснення лагодить ритм задарма.
-
-## Детектори: що ми реально поміряли
-
-Один український текст, писала людина руками:
-
-| Детектор | Вирок |
-|---|---|
-| GPTZero | 98% людини ✅ |
-| JustDone | **70% AI** ❌ |
-
-JustDone вважає живий український текст переважно машинним. Він навіть звітує в термінах антиплагіату («23% Identical», «17% Paraphrased AI») — схоже, відповідає взагалі на інше питання.
-
-**Тому: [GPTZero](https://gptzero.me).** Для української особливо. Якщо детектор називає AI твоє власне нередаговане письмо, він міряє не те, що обіцяє. Підганяти під нього текст означає псувати його, а не олюднювати.
-
-## Перегин
-
-Провал, про який ніхто не говорить. Натисни на хуманайзер сильніше — і він починає **зображати** людину: обрубок через рядок, штучні відступи, навмисні одруківки. Список tells чистий, читати неможливо. Гірше, ніж було.
-
-Критик тут ріже в обидва боки. Одна перевірка полює на AI-запах, інша валить текст, який занадто старається. Ціль — людина, яка нормально пише. Не людина, яка зображає людину.
+- **Кришити текст на короткі обрубки — робить його AI-шнішим, не навпаки.** Цю рубаність видає кожен AI-інструмент. Плавні речення з живим повтором читаються людяніше.
+- **Стиснення — не трюк, а голос.** Людина каже менше своїм голосом, ніж асистент — але стискай до того, як сказала б *вона*, не шматуй.
+- **Вибір слова видає чернетку.** Якщо AI написав «бриф», а ти б сказала «комунікація», лишити його слово — це і є tell. Голос це *твій* словник, не моделі.
+- **Детектори дико не згодні між собою й вводять в оману.** На тому самому живому українському тексті: GPTZero — 98% людини, JustDone — 70% AI. Якщо детектор позначає твоє нередаговане письмо як AI, він міряє не те. Не підганяй текст під нього.
 
 ## Встановлення
 
-Скіли не синхронізуються між поверхнями, тому бери свою. Або обидві.
+Скіли не синхронізуються між поверхнями, тому бери свою.
 
 ### Claude Code
 
@@ -271,7 +186,7 @@ JustDone вважає живий український текст перева�
 git clone https://github.com/volikablack/own-voice ~/.claude/skills/own-voice
 ```
 
-Усе. Кажеш «перепиши по-людськи» — спрацьовує.
+Кажеш «перепиши моїм голосом» — спрацьовує.
 
 ### claude.ai
 
@@ -282,40 +197,47 @@ cd own-voice && make zip
 
 Далі: **Settings → Features → Skills → залити `dist/own-voice.zip`**
 
-Треба Pro, Max, Team або Enterprise з увімкненим code execution. З безкоштовного акаунта кастомні скіли не ставляться — це обмеження платформи, не наше.
-
-Профіль кладеться в Проєкт, бо VM скіла стирається між чатами. Деталі — [voice/README.md](voice/README.md).
+Треба Pro/Max/Team/Enterprise з code execution. З безкоштовного акаунта кастомні скіли не ставляться — обмеження платформи. Профіль кладеться в Проєкт (VM скіла стирається між чатами); див. [voice/README.md](voice/README.md).
 
 ## Як користуватись
 
 ```
-перепиши по-людськи: <твій текст>
+перепиши моїм голосом: <твій текст>
 ```
 
-Або «прибери AI», або «хуманайзер», або просто кинь текст і скажи, що він пахне ШІ.
-
-Перший запуск запропонує калібрування. Пройди — це і є продукт. Пропустиш — отримаєш нормальний де-AI, тобто те, що вміють усі.
+Або «зроби як я», або «прибери AI і використай мої слова». Перший запуск запропонує калібрування. Пройди — без профілю це просто загальний редактор, тобто рівно те, чим ми не є.
 
 ## Що приходить назад
 
 1. Переписаний текст чистим код-блоком, готовий вставляти.
-2. **Зроблено:** `прибрав 4 тире · розламав два rule-of-three · зрізав 3 хеджі`
-3. **До → після:** найгостріші заміни, щоб ти сама почала так писати.
-4. **Не чіпав:** що лишив і чому.
-5. Посилання на [GPTZero](https://gptzero.me), перевірити по-справжньому.
+2. **Твоїм голосом:** що змінилось під тебе, названо проти твого профілю.
+3. **До → після:** найгостріші заміни голосу, щоб ти сама почала бачити різницю.
+4. **Не чіпав:** факти й рядки, що вже були твої.
+5. **Справжній тест:** ти читаєш. Схоже на тебе? Кажеш, який рядок ні — і воно виправляє й запам'ятовує.
+
+## Калібрування
+
+Три групи, зупинитись можна після будь-якої:
+
+| Група | Що ловить |
+|---|---|
+| 5 коротких | Характер — різко чи м'яко, з емодзі чи сухо, вибачається чи тримає. |
+| 3 довгих | Ритм — як твої речення реально течуть і де ламаються. |
+| 2 питання | Твій чистий аркуш — своя тема, свої слова, без нашої основи. |
+
+Свої тексти можна докинути зверху, але калібрування головне: зразки зазвичай забруднені (вже редаговані, вже AI-торкані), а відома основа робить кожне твоє відхилення чистим сигналом.
 
 ## Чесні обмеження
 
-- **Ніяких оцінок.** Свідомо. Треба цифра — посилання вище.
-- **v1 завалила перший же живий тест.** Цифри в таблиці вище наші власні. Ми виклали виправлення, а не виправдання — але якщо побачиш, що воно й далі тримає забагато форми, це баг, і ми хочемо про нього знати.
+- **Ніякої оцінки детектора.** Свідомо, і тепер ти знаєш чому.
+- **Звучить як ти; не обіцяє нікого обдурити.** Інша обіцянка, і єдина, за яку ми ручаємось.
 - **Тільки англійська й українська.** Інше — скаже й зупиниться.
-- **Порожній текст не врятує.** Обробиш порожню думку — отримаєш гарно написану порожню думку.
-- **Факти тримає, а не покращує.** Він не вигадає ту конкретну деталь, якої твоєму тексту бракує. Це на тобі.
-- **claude.ai потребує платного тарифу** з code execution. Не наше рішення.
-- **Детектори змінюються.** Хто обіцяє гарантований відсоток — той тобі щось продає.
+- **Факти тримає, не покращує.** Не вигадає деталь, якої тексту бракує.
+- **Профіль — це все.** Пропустиш калібрування — отримаєш загальний редактор, тобто рівно те, чого ми не хотіли.
+- **claude.ai потребує платного тарифу** з code execution.
 
 ## Ліцензія
 
-MIT. Форкай, або просто витягни списки tells під щось своє.
+MIT. Форкай, або просто візьми списки патернів під щось своє.
 
 Зроблено [Валерією Чуйко](https://valeria.digital) — AI-системи, агенти, автоматизація.
