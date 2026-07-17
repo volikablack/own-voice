@@ -1,0 +1,8 @@
+# Your voice profile is a fingerprint of how you write. It stays local.
+voice/profile.md
+
+# Build output
+dist/
+*.zip
+
+.DS_Store
