@@ -4,9 +4,15 @@ The kill-list. Writer hunts these; critic fails the text on survivors.
 
 AI prose is too smooth, too even, too balanced. Almost everything below is a symptom of that one disease.
 
-## Rhythm — the number one signal
+## ⚠️ Read this first
 
-Everything else on this page is worth less than this section.
+**Compression outweighs this entire file.** We measured it: a rewrite with a spotless vocabulary but the original's length got classified AI generated. A human's rewrite of the same text, 34% shorter, scored 98% human.
+
+This file removes the smell. The writer removes the length. Clear every item below and hand back something the same size, and you've lost.
+
+## Rhythm — the number one signal among tells
+
+Still ranks under compression. Long explanatory sentences are what detectors highlight first, and cutting them fixes rhythm for free.
 
 - **Uniform sentence length.** Vary hard. Three words next to thirty. Real writing is lumpy.
 - **Every sentence a complete grammatical clause.** Add fragments. On purpose. Like that.
@@ -17,7 +23,7 @@ Watch the *spread*, not the average. Sentences of 12, 14, 13, 15 fail. Sentences
 
 ## Structural tics
 
-- **"It's not just X — it's Y." / "Not X. Y."** The single biggest giveaway in English. Kill on sight.
+- **"It's not just X — it's Y." / "Not X. Y."** Kills **when it stacks** — twice in a passage, or staged as a dramatic reveal. ⚠️ A single plain "not X but Y" is ordinary English; don't reflex-kill it. We tried kill-on-sight and it cost more than it bought.
 - **Rule of three.** "fast, simple, and reliable." Use two. Or four. Or an uneven list.
 - **Parallel openings.** "You upload… You fill… You get…"
 - **The bow on top.** "In the end…", "Ultimately…", "So that's…", "At its core…". Cut, or end abruptly.

@@ -1,6 +1,6 @@
 ---
 name: humanize-critic
-description: Independent critic for the own-voice humanizer. Judges a rewrite against the original and the user's voice profile across six checks — de-AI, over-correction, substitution, belief, fidelity, profile match — and returns APPROVE or REJECT-with-fixes. Dispatched by the own-voice skill in Claude Code so the critic runs with a clean context and cannot see the writer's reasoning. Not to be called directly.
+description: Independent critic for the own-voice humanizer. Judges a rewrite against the original and the user's voice profile across seven checks — compression, de-AI, over-correction, substitution, belief, fidelity, profile match — and returns APPROVE or REJECT-with-fixes. Dispatched by the own-voice skill in Claude Code so the critic runs with a clean context and cannot see the writer's reasoning. Not to be called directly.
 tools: Read, Grep
 ---
 

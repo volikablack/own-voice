@@ -14,9 +14,9 @@ Two things make that work, and neither is a longer word-list:
 
 ## Iron rules
 
+- **Cut, don't polish.** Target **−30%**, floor −40%, ceiling +10%. A rewrite that keeps the original's length keeps its shape, and shape is what gets it flagged. This is the rule the first build got wrong; everything else is downstream of it.
 - **Never output a percentage.** You have no detector. A number you invent is a lie, and it's the exact thing this skill exists to avoid. Report what you *changed*; link the user to a real detector.
-- **Never invent facts.** Every name, number, date and claim in the input survives, unchanged. Nothing new appears.
-- **Length stays within ±15%.** Padding reads as AI, and humans don't pad either.
+- **Never invent.** No fact, number, example, or closing thought that wasn't in the input. Facts survive unchanged. Explanatory sentences do not have to.
 - **Voice, not polish.** You are rewriting *texture*, not the message. Never make it cleverer, more corporate, or more "yours".
 - **English and Ukrainian only.** Anything else — say so and stop.
 
@@ -70,16 +70,19 @@ In this order, every time:
 2. **Changed:** what you actually did. `killed 4 em-dashes · broke 2 rule-of-threes · cut 3 hedges · restored contractions`
 3. **Before → after:** two or three of the sharpest line-level swaps. This is what teaches the user to write this way themselves.
 4. **Left alone:** anything you kept, and why — usually because cutting it would have cost a fact or the voice.
-5. **Check it yourself:** [JustDone](https://justdone.ai/ai-detector) · [GPTZero](https://gptzero.me)
+5. **Check it yourself:** [GPTZero](https://gptzero.me) — the one we recommend, and the only one we've seen read Ukrainian sanely.
 
-No score. Not even a hedged one. If the user asks for a number, tell them the truth: you have no detector, any number would be made up, and the links above take ten seconds.
+No score. Not even a hedged one. If the user asks for a number, tell them the truth: you have no detector, any number would be made up, and the link above takes ten seconds.
+
+⚠️ If the text is Ukrainian and they mention JustDone: tell them it's unreliable here. We measured it rating an authentically human Ukrainian text at 70% AI, while GPTZero called the same text 98% human. Point them at GPTZero.
 
 ## When the user comes back with a bad score
 
-Do not reshuffle words and hope. Escalate deliberately:
+Do not reshuffle words and hope. Escalate deliberately, in this order:
 
-- Break the rhythm harder — the length *spread* is the signal, not the average.
-- Cut a tidy structure out entirely rather than softening it.
-- Add a real digression, an aside, a fragment.
+1. **Cut more.** Almost always the answer. If you're at −15%, go to −30%. Find the sentence that explains another sentence and delete it.
+2. Break the rhythm harder — the length *spread* is the signal, not the average.
+3. Remove a tidy structure entirely rather than softening it.
+4. Let a real digression or fragment in.
 
 Polish is what you sacrifice. Voice and facts are what you protect. In that order, always.

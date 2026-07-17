@@ -18,7 +18,7 @@ own-voice does neither.
 
 **It learns how you actually write.** Once, up front, you take a short calibration: ten tasks, about five minutes. It writes a voice profile from your answers. Every rewrite after that targets *you*, not "human".
 
-**The writer doesn't grade itself.** A separate critic reviews every rewrite with the power to reject it. Six checks, and it sends the text back until it passes. In Claude Code the critic runs as a subagent with a clean context, so it physically can't see how the writer reasoned. That independence is the point.
+**The writer doesn't grade itself.** A separate critic reviews every rewrite with the power to reject it. Seven checks, and it sends the text back until it passes. In Claude Code the critic runs as a subagent with a clean context, so it physically can't see how the writer reasoned. That independence is the point.
 
 **No made-up scores.** It has no detector, so it never prints a percentage. It tells you what it changed, shows you the sharpest before/after swaps, and links you to a real detector to check yourself. Ten seconds, and the number is true.
 
@@ -38,13 +38,46 @@ Three groups, and you can stop after any of them:
 | 3 long tasks | **Rhythm.** The main event. Uniform rhythm is the #1 AI signal, and it's invisible in a single sentence. |
 | 2 open questions | Your blank page. Your own subject, your own words, no baseline from us. |
 
-## The rhythm thing
+## The one thing we got wrong, and what it taught us
 
-If you take one idea from this repo, take this one.
+If you take a single idea from this repo, take this one. It cost us a rebuild.
 
-A model writes sentences of roughly equal length. 12, 14, 13, 15. A person doesn't — they build a long one, then stop. Two words. Then run again for a while because they're mid-thought and the thought isn't done.
+The first version had a rule: preserve length within ±15%. Sensible-sounding. Padding is an AI tell, so don't pad.
 
-The **spread** is the signal, not the average. That's why the long tasks matter more than everything else, and it's why a one-sentence sample teaches a humanizer nothing at all.
+Then we tested it. Same detector, same language, same source text:
+
+| | Length vs original | GPTZero |
+|---|---|---|
+| A person, rewriting by hand | **−34%** | **98% human** |
+| Our v1, rules obeyed perfectly | −8% | 47% human — *classified AI generated* |
+
+The v1 output had a clean vocabulary. Every tell on the list, gone. It still got flagged, because **we swapped the words and kept the skeleton, and the skeleton is the signal.**
+
+Look at one idea, both versions:
+
+> **Person:** «ти робиш, а в замовника своє "красиво"» — 6 words
+> **Our v1:** «ти робиш красиво, а виявляється, шо красиво для неї означало щось геть інше» — 12 words
+
+Same meaning. Twice the words. The long one got highlighted as an AI sentence; the short one didn't.
+
+A model explains to the end, because it's afraid of being misunderstood. A person says half and trusts you for the rest. **That trust is what reads as human** — only someone who knows their reader takes that risk.
+
+So the rule inverted. Target −30%. Floor −40%. Cutting isn't damage, it's the whole move, and everything else in this repo is downstream of it.
+
+Rhythm still matters — the **spread** of sentence lengths, not the average — but compressing fixes rhythm for free.
+
+## Detectors: what we actually measured
+
+Same Ukrainian text, written by a human, by hand:
+
+| Detector | Verdict |
+|---|---|
+| GPTZero | 98% human ✅ |
+| JustDone | **70% AI** ❌ |
+
+JustDone rates authentic human Ukrainian as mostly AI. Its breakdown even reports in plagiarism terms ("23% Identical", "17% Paraphrased AI"), which suggests it's answering a different question than the one you're asking.
+
+**So: use [GPTZero](https://gptzero.me).** For Ukrainian especially. If a detector flags your own unedited writing as AI, it isn't measuring what it claims to, and tuning your prose to please it makes your writing worse, not more human.
 
 ## Over-correction
 
@@ -93,11 +126,12 @@ First run offers the calibration. Take it. That's the whole product. Skip it and
 2. **Changed:** `killed 4 em-dashes · broke 2 rule-of-threes · cut 3 hedges · restored contractions`
 3. **Before → after:** the sharpest line-level swaps, so you start writing this way yourself.
 4. **Left alone:** what it kept, and why.
-5. Links to [JustDone](https://justdone.ai/ai-detector) and [GPTZero](https://gptzero.me) to check for real.
+5. A link to [GPTZero](https://gptzero.me) to check for real.
 
 ## Honest limits
 
-- **No score, ever.** By design. If you want a number, the links are right there.
+- **No score, ever.** By design. If you want a number, the link is right there.
+- **v1 failed the first real test.** The numbers in the table above are our own. We shipped the fix, not the excuse — but if you find it still keeping too much shape, that's a bug and we want to hear it.
 - **English and Ukrainian only.** Anything else, it says so and stops.
 - **It won't save a text with nothing in it.** Humanizing an empty argument gives you a well-written empty argument.
 - **Facts are held, not improved.** It won't invent the specific detail your copy is missing. That's on you.
@@ -125,7 +159,7 @@ own-voice/
 ├── SKILL.md                    entry point
 ├── references/
 │   ├── writer.md               rewriting rules
-│   ├── critic.md               the six checks
+│   ├── critic.md               the seven checks
 │   ├── calibration.md          the ten tasks, EN + UK
 │   ├── tells-en.md             English kill-list
 │   └── tells-uk.md             Ukrainian kill-list
@@ -160,7 +194,7 @@ Built by [Valeriia Chuiko](https://valeria.digital) — AI systems, agents, auto
 
 **Вчить, як ти реально пишеш.** Один раз на старті проходиш калібрування: десять завдань, хвилин пʼять. З твоїх відповідей складається профіль голосу. Далі кожне переписування цілиться в **тебе**, а не в «людину».
 
-**Писар не оцінює сам себе.** Кожен текст читає окремий критик, який має право відхилити — шість перевірок, і він жене назад, поки не пройде. У Claude Code критик іде сабагентом з чистим контекстом, тобто фізично не бачить, як міркував писар. У цьому весь сенс.
+**Писар не оцінює сам себе.** Кожен текст читає окремий критик, який має право відхилити — сім перевірок, і він жене назад, поки не пройде. У Claude Code критик іде сабагентом з чистим контекстом, тобто фізично не бачить, як міркував писар. У цьому весь сенс.
 
 **Жодних вигаданих цифр.** Детектора в нього нема, тому він ніколи не пише відсоток. Каже, що змінив, показує найгостріші заміни до/після, і дає посилання на живий детектор — перевір сам. Десять секунд, і число справжнє.
 
@@ -180,13 +214,46 @@ Built by [Valeriia Chuiko](https://valeria.digital) — AI systems, agents, auto
 | 3 довгих | **Ритм.** Головне: рівний ритм — сигнал AI номер один, і в одному реченні його не видно. |
 | 2 питання | Твій чистий аркуш. Своя тема, свої слова, без нашої основи. |
 
-## Про ритм
+## Що ми зробили не так, і чого це навчило
 
-Якщо забирати з цього репо одну думку — оцю.
+Якщо забирати з цього репо одну думку — оцю. Вона коштувала нам переробки.
 
-Модель пише речення приблизно однакової довжини. 12, 14, 13, 15. Людина ні: розганяє довге, потім стоп. Два слова. І знову побігла, бо думка ще не закінчилась.
+У першій версії стояло правило: тримати довжину ±15%. Звучить розумно. Набивання це AI-tell, тому не набивай.
 
-**Розкид** і є сигнал, не середнє. Тому довгі завдання важать більше за все решта. І тому зразок в одне речення не вчить хуманайзер нічого.
+Потім ми перевірили. Той самий детектор, та сама мова, той самий вихідний текст:
+
+| | Довжина проти оригіналу | GPTZero |
+|---|---|---|
+| Людина, переписала руками | **−34%** | **98% людини** |
+| Наша v1, правила виконані бездоганно | −8% | 47% людини — *класифіковано як AI* |
+
+У v1 був чистий словник. Жодного tell зі списку не лишилось. І все одно завал, бо **ми поміняли слова й лишили скелет, а скелет і є сигнал.**
+
+Одна думка, дві версії:
+
+> **Людина:** «ти робиш, а в замовника своє "красиво"» — 6 слів
+> **Наша v1:** «ти робиш красиво, а виявляється, шо красиво для неї означало щось геть інше» — 12 слів
+
+Той самий сенс. Удвічі більше слів. Довгу детектор підсвітив як AI-речення, коротку ні.
+
+Модель договорює до кінця, бо боїться бути незрозумілою. Людина каже половину й довіряє читачу добрати решту. **Оця довіра й читається як людське** — на такий ризик іде тільки той, хто знає свого читача.
+
+Тому правило перевернулось. Ціль −30%. Дно −40%. Різати це не втрата, це головний хід, і все інше в цьому репо стоїть на ньому.
+
+Ритм лишається важливим — саме **розкид** довжин, не середнє — але стиснення лагодить ритм задарма.
+
+## Детектори: що ми реально поміряли
+
+Один український текст, писала людина руками:
+
+| Детектор | Вирок |
+|---|---|
+| GPTZero | 98% людини ✅ |
+| JustDone | **70% AI** ❌ |
+
+JustDone вважає живий український текст переважно машинним. Він навіть звітує в термінах антиплагіату («23% Identical», «17% Paraphrased AI») — схоже, відповідає взагалі на інше питання.
+
+**Тому: [GPTZero](https://gptzero.me).** Для української особливо. Якщо детектор називає AI твоє власне нередаговане письмо, він міряє не те, що обіцяє. Підганяти під нього текст означає псувати його, а не олюднювати.
 
 ## Перегин
 
@@ -235,11 +302,12 @@ cd own-voice && make zip
 2. **Зроблено:** `прибрав 4 тире · розламав два rule-of-three · зрізав 3 хеджі`
 3. **До → після:** найгостріші заміни, щоб ти сама почала так писати.
 4. **Не чіпав:** що лишив і чому.
-5. Посилання на [JustDone](https://justdone.ai/ai-detector) і [GPTZero](https://gptzero.me), перевірити по-справжньому.
+5. Посилання на [GPTZero](https://gptzero.me), перевірити по-справжньому.
 
 ## Чесні обмеження
 
 - **Ніяких оцінок.** Свідомо. Треба цифра — посилання вище.
+- **v1 завалила перший же живий тест.** Цифри в таблиці вище наші власні. Ми виклали виправлення, а не виправдання — але якщо побачиш, що воно й далі тримає забагато форми, це баг, і ми хочемо про нього знати.
 - **Тільки англійська й українська.** Інше — скаже й зупиниться.
 - **Порожній текст не врятує.** Обробиш порожню думку — отримаєш гарно написану порожню думку.
 - **Факти тримає, а не покращує.** Він не вигадає ту конкретну деталь, якої твоєму тексту бракує. Це на тобі.
