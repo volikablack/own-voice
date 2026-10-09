@@ -4,13 +4,13 @@ Ten tasks. Roughly five minutes. It produces `voice/profile.md`.
 
 ## Why this, and not "paste me some of your writing"
 
-Samples people hand over are contaminated. They've been through a model, an editor, or both — and you'd be learning the editor.
+Samples people hand over are contaminated. They've been through a model, an editor, or both – and you'd be learning the editor.
 
 Here you hand them a fixed, deliberately smooth baseline and ask them to say the same thing their way. **You know exactly what the neutral version sounds like, so every deviation from it is pure voice signal.** Nothing else in the answer is noise.
 
 Samples are still welcome as a bonus. The test catches *how they rewrite*; samples catch *how they start from a blank page*; the two free-write tasks below cover most of that gap anyway.
 
-## Delivery — three batches, not ten questions
+## Delivery – three batches, not ten questions
 
 Ten prompts in one wall makes people bail. One at a time makes it a interrogation. Send them in three groups, and say up front they can stop after any of them:
 
@@ -22,7 +22,7 @@ Tell them that. A profile that exists after five minutes beats a perfect one the
 
 ---
 
-## Group 1 — five short. Character.
+## Group 1 – five short. Character.
 
 No rhythm here, and none needed. This is reaction: sharp or soft, emoji or dry, apologizes or holds.
 
@@ -70,11 +70,11 @@ That's wonderful news! I'm so happy for you.
 
 ---
 
-## Group 2 — three long. Rhythm.
+## Group 2 – three long. Rhythm.
 
 **The important group.** Uniform rhythm is the number one AI signal, and it is *physically invisible in a single sentence*. Only a paragraph shows the spread.
 
-Each baseline is loaded on purpose — rule-of-three, even cadence, a tidy moral at the end. Watch which ones they break and how. That's the profile.
+Each baseline is loaded on purpose – rule-of-three, even cadence, a tidy moral at the end. Watch which ones they break and how. That's the profile.
 
 ### UK
 
@@ -98,7 +98,7 @@ Each baseline is loaded on purpose — rule-of-three, even cadence, a tidy moral
 може здаватися незручною, і ціную те, що ви поділилися своїми
 міркуваннями. Проте досвід підказує мені, що альтернативний варіант
 призведе до додаткових складнощів у майбутньому. Пропоную зупинитися
-на моєму варіанті, а якщо він себе не виправдає — я візьму
+на моєму варіанті, а якщо він себе не виправдає – я візьму
 відповідальність на себе.
 ```
 
@@ -130,7 +130,7 @@ out, I'll take responsibility.
 
 ---
 
-## Group 3 — two questions. Blank page.
+## Group 3 – two questions. Blank page.
 
 No baseline. They write cold, about their own life.
 
@@ -159,7 +159,7 @@ No baseline. They write cold, about their own life.
 
 Break these and the test stops measuring voice.
 
-- **Only universally-lived situations.** Being late, saying no, asking for money, messing up. **Never a profession.** Hand someone a baseline about a job they've never done and they'll produce a stiff translation — and you will record their stiffness as their voice. That's how you poison a profile.
+- **Only universally-lived situations.** Being late, saying no, asking for money, messing up. **Never a profession.** Hand someone a baseline about a job they've never done and they'll produce a stiff translation – and you will record their stiffness as their voice. That's how you poison a profile.
 - **Domain arrives on its own**, through group 3. Guessing the user's field is unnecessary and harmful.
 - **Baselines stay deliberately smooth.** They're the zero point. If a baseline already sounds human, that task measures nothing.
 - **Thanks is out.** Everyone sounds the same saying thank you. Zero signal.
@@ -167,25 +167,25 @@ Break these and the test stops measuring voice.
 
 ## Extraction → `voice/profile.md`
 
-### From group 2 (rhythm — do this first, it's the backbone)
+### From group 2 (rhythm – do this first, it's the backbone)
 
-- **Median sentence length, and the spread.** Shortest and longest. The spread is the number that matters — write it down literally.
+- **Median sentence length, and the spread.** Shortest and longest. The spread is the number that matters – write it down literally.
 - How they join clauses: «і» / commas / dashes / full stops. Which do they reach for and which do they never use?
 - Did they keep the rule-of-three or break it? Into what?
 - Did the tidy closing moral survive? People who cut it have a strong voice.
-- Paragraph shape — even blocks, or one line then a wall?
+- Paragraph shape – even blocks, or one line then a wall?
 
 ### From group 1 (character)
 
 - Register per situation: do they apologize, hedge, or go straight in?
-- Emoji — which, how many, where.
+- Emoji – which, how many, where.
 - Warm or dry. Reflexive "sorry"/«дякую», or not.
 - What do they cut first when they rewrite? That's usually their strongest instinct.
 
 ### From group 3 (blank page)
 
 - The opening move. Most people have one or two habits.
-- Their own vocabulary — trade words, slang, what they keep in English.
+- Their own vocabulary – trade words, slang, what they keep in English.
 - Do they own a screwup with self-deprecation, or get defensive? That one line predicts a lot of their writing.
 
 ### Across everything
@@ -195,4 +195,4 @@ Break these and the test stops measuring voice.
 - Filler and connective words they actually use.
 - **What they never do.** Write this down explicitly. The never-list carries as much weight as the do-list, and the writer will violate it if you don't.
 
-Write the profile in the user's own language. Show it to them before saving — they'll correct it, and the correction itself is more signal.
+Write the profile in the user's own language. Show it to them before saving – they'll correct it, and the correction itself is more signal.

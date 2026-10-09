@@ -1,27 +1,27 @@
 # The English no-one voice
 
-Patterns that belong to no person — the way an assistant writes, not a human. This is **step 1**: strip the generic no-one voice so the person's voice from the profile can go on top. On its own this file makes text "generically human", not *theirs* — so it's only half the job.
+Patterns that belong to no person – the way an assistant writes, not a human. This is **step 1**: strip the generic no-one voice so the person's voice from the profile can go on top. On its own this file makes text "generically human", not *theirs* – so it's only half the job.
 
 ## ⚠️ Read this first
 
-**Don't chop text to look human.** Measured, on real detectors and real reading: short punchy fragments read *more* artificial, not less — because that staccato is exactly what every AI humanizer produces. The most human-scoring sentence in our tests was the longest, most flowing one, barely edited, with the person's speech repetition left in.
+**Don't chop text to look human.** Short punchy fragments read *more* artificial, because that staccato is exactly what every AI humanizer produces. Long, flowing, lightly edited sentences with the person's own repetition left in read most like a person.
 
 Compression means "say as much as the person would actually say", not "shatter it into pieces". Flow beats punchiness.
 
-## Rhythm — but not choppiness
+## Rhythm – but not choppiness
 
 Hit the profile's rhythm: varied lengths, natural flow. Don't shatter a sentence that was already fine.
 
 - **Uniform sentence length.** Vary hard. Three words next to thirty. Real writing is lumpy.
-- **Every sentence a complete grammatical clause.** Add fragments. On purpose. Like that.
+- **Every sentence a textbook-complete clause.** Keep the sentence-length spread from the profile. A fragment only where the profile shows they use them; never chop to add one.
 - **Even paragraphs.** A one-line paragraph next to a fat one.
-- **Even cadence inside the sentence** — clause, comma, clause, comma. Break it. Run one on. Stop another dead.
+- **Even cadence inside the sentence**: clause, comma, clause, comma. Let it run the way the profile's sentences run; don't chop it into pieces.
 
 Watch the *spread*, not the average. Sentences of 12, 14, 13, 15 fail. Sentences of 4, 31, 9, 22 pass.
 
 ## Structural tics
 
-- **"It's not just X — it's Y." / "Not X. Y."** Kills **when it stacks** — twice in a passage, or staged as a dramatic reveal. ⚠️ A single plain "not X but Y" is ordinary English; don't reflex-kill it. We tried kill-on-sight and it cost more than it bought.
+- **"It's not just X – it's Y." / "Not X. Y."** Kills **when it stacks** – twice in a passage, or staged as a dramatic reveal. ⚠️ A single plain "not X but Y" is ordinary English; don't reflex-kill it. We tried kill-on-sight and it cost more than it bought.
 - **Rule of three.** "fast, simple, and reliable." Use two. Or four. Or an uneven list.
 - **Parallel openings.** "You upload… You fill… You get…"
 - **The bow on top.** "In the end…", "Ultimately…", "So that's…", "At its core…". Cut, or end abruptly.
@@ -48,16 +48,16 @@ Phrases:
 
 ## Tone
 
-- **No contractions.** Use them — don't, you'll, we've — unless the profile says otherwise.
+- **No contractions.** Use them – don't, you'll, we've – unless the profile says otherwise.
 - **Hedging.** often, generally, typically, can be, may help, tends to. Cut them. People commit.
 - **Relentless evenness.** No opinion, no irritation, no aside. Let one thing be blunt.
-- **Perfect transitions.** Moreover, Furthermore, Additionally, Consequently. Drop them, or use And / But / So — at the start of a sentence, which people do constantly.
+- **Perfect transitions.** Moreover, Furthermore, Additionally, Consequently. Drop them, or use And / But / So – at the start of a sentence, which people do constantly.
 - **Explaining the obvious**, in a clause, after already saying it.
 - **Enthusiasm with no object.** "That's a great question!" "Exciting times ahead!"
 
-## Not tells — leave them alone
+## Not tells – leave them alone
 
-Overcorrection is its own failure (critic check 2). These are fine:
+Overcorrection is its own failure (critic check 3). These are fine:
 
 - A long, well-built sentence. Humans write those.
 - A semicolon. Some people use them.
@@ -65,4 +65,4 @@ Overcorrection is its own failure (critic check 2). These are fine:
 - One em-dash. One is a person; nine is a model.
 - A tidy structure that's genuinely the clearest way to say the thing.
 
-The target is a person writing normally — not a person performing casualness.
+The target is a person writing normally – not a person performing casualness.
