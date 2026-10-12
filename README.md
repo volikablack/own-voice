@@ -130,6 +130,12 @@ own-voice/
     └── profile.example.md      what one looks like
 ```
 
+## Want more than one voice?
+
+Own Voice Pro is the paid edition on [Agensi](https://www.agensi.io/skills/own-voice-pro-your-voice-that-keeps-learning). It saves your corrections as rules once you approve them and keeps separate voices for work and personal writing, with presets for LinkedIn, Threads, email and freelance bids. The profile you made with this free version carries over.
+
+This free edition is listed on Agensi too: [Own Voice](https://www.agensi.io/skills/own-voice-rewrite-text-in-your-own-voice).
+
 ## Licence
 
 MIT. Fork it, or just take the pattern-lists for something of your own.
@@ -235,6 +241,10 @@ cd own-voice && make zip
 - **Факти тримає, не покращує.** Не вигадає деталь, якої тексту бракує.
 - **Профіль — це все.** Пропустиш калібрування — отримаєш загальний редактор, тобто рівно те, чого ми не хотіли.
 - **claude.ai потребує платного тарифу** з code execution.
+
+## Потрібно більше одного голосу?
+
+Own Voice Pro – платна версія на [Agensi](https://www.agensi.io/skills/own-voice-pro-your-voice-that-keeps-learning). Вона зберігає твої правки як правила, коли ти їх підтверджуєш, і тримає окремі голоси для роботи й особистого, з пресетами для LinkedIn, Threads, email і ставок на фрилансі. Профіль із цієї безкоштовної версії переходить у Pro.
 
 ## Ліцензія
 
