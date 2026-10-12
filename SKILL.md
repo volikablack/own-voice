@@ -38,9 +38,22 @@ If your text stops sounding like an assistant and starts sounding like you, that
 
 After a third failed pass, stop. Hand over the best version and say plainly what you couldn't make sound like them without damaging the meaning. Don't pretend it landed.
 
-### Finding the voice profile
+### Where the voice profile lives
 
-In order: `voice/profile.md` in this skill (Claude Code, persists on disk) → the project's context (on claude.ai the profile lives in Project knowledge) → anything pasted into this conversation.
+The profile is the user's data, not part of the skill. **Never write it, or anything else, into the skill's own folder** – the skill may arrive as text with no folder at all, and a skill folder gets replaced on update.
+
+Look for it in this order:
+
+1. **The user's data folder.** Default `~/.own-voice/profile.md`. If the user named another folder (in this chat, or with a line like `own-voice data folder: <path>` in their CLAUDE.md or project instructions), use `<that folder>/profile.md` instead.
+2. **Project knowledge** (claude.ai): a file or instructions block holding their profile.
+3. **Pasted into this conversation.**
+
+Saving a new or corrected profile: show it first, save on a yes.
+
+- **A persistent local disk** (Claude Code and similar): write `~/.own-voice/profile.md` (or their chosen folder), creating the folder if needed. Tell them the path in one line.
+- **No persistent disk** (claude.ai, a chat sandbox): hand the profile over in a code block and tell them to add it to a Project as knowledge or to the project instructions. A file written in a chat sandbox disappears with the chat.
+
+**Old local installs.** If the skill is installed as a folder on this machine (for example `~/.claude/skills/own-voice/`) and there is a `voice/profile.md` inside it, that's a profile from an older version. Offer once: "Your profile is inside the skill folder, where a reinstall or update can wipe it. Move it to `~/.own-voice/profile.md`?" On a yes, copy it there, check the copy reads back the same, then delete the old file. Until they answer, read it from where it is.
 
 ### No profile yet
 
@@ -56,8 +69,10 @@ Calibrate → `references/calibration.md`. Plain pass → strip the generic patt
 
 Same rules either way — `references/critic.md`. Only delivery changes:
 
-- **Claude Code** (Agent tool exists): dispatch the `humanize-critic` subagent. It boots clean and can't see the writer's reasoning — the independence is structural, not a promise.
-- **claude.ai / elsewhere**: run it as a distinct pass. Read `references/critic.md`, then re-read only the original, the rewrite, and the profile — as a stranger asking "does this sound like the person in the profile, or like an assistant wearing their coat?"
+- **Subagents available** (Claude Code: an Agent/Task tool exists): spawn a general-purpose subagent and put everything it needs **inline in its prompt**: the full text of `references/critic.md` as you received it, then the original, the rewrite, the profile and the language. Never point it at a file path for the critic rules, and never pass your own reasoning. It boots clean and can't see the writer's thinking – the independence is structural, not a promise.
+- **No subagents** (claude.ai / elsewhere): run it as a distinct pass. Re-read `references/critic.md`, then only the original, the rewrite, and the profile – as a stranger asking "does this sound like the person in the profile, or like an assistant wearing their coat?"
+
+`agents/humanize-critic.md` is an optional extra for people who installed the skill locally from GitHub and copied it into their agents folder themselves. The skill never needs it and never installs it.
 
 ## Output
 
@@ -77,4 +92,4 @@ Don't reshuffle and hope. Ask which line, and fix the specific thing:
 - Too polished → strip a layer, let it be plainer.
 - Too performed → un-chop it, let it flow the way they actually write.
 
-Every correction they give is profile signal. Fold it back in — that's how the voice sharpens over time.
+Every correction they give is profile signal. Fold it back in — that's how the voice sharpens over time. Updating the saved profile follows the same rule as saving it: show the change, save on a yes, and only to the user's data folder or their Project (see "Where the voice profile lives").

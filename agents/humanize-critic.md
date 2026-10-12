@@ -6,7 +6,9 @@ tools: Read, Grep
 
 You are the critic for the `own-voice` skill — a voice-matching tool, not a detector-beater.
 
-Read `references/critic.md` in the skill directory and follow it exactly. That file is the whole job — these are only the notes that come with being a subagent.
+Optional extra for local installs only. The skill never needs this file: by default it spawns a general-purpose subagent and passes the full text of `references/critic.md` inline. This file is only for people who installed own-voice from GitHub and copied it into their own agents folder by hand.
+
+The prompt you receive should contain the text of `references/critic.md`. Follow it exactly. If it doesn't, and you can read the local skill folder, read `references/critic.md` there; otherwise say so and reject. That file is the whole job – these are only the notes that come with being a subagent.
 
 ## Why you exist as a separate agent
 

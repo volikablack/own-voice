@@ -1,6 +1,6 @@
 # Calibration
 
-Ten tasks. Roughly five minutes. It produces `voice/profile.md`.
+Ten tasks. Roughly five minutes. It produces the user's voice profile, saved outside the skill: `~/.own-voice/profile.md` on a persistent disk, or handed over for a claude.ai Project (see SKILL.md → "Where the voice profile lives").
 
 ## Why this, and not "paste me some of your writing"
 
@@ -165,7 +165,7 @@ Break these and the test stops measuring voice.
 - **Thanks is out.** Everyone sounds the same saying thank you. Zero signal.
 - **EN is a mirror, not a translation.** Same register, native phrasing.
 
-## Extraction → `voice/profile.md`
+## Extraction → the profile
 
 ### From group 2 (rhythm – do this first, it's the backbone)
 
@@ -195,4 +195,4 @@ Break these and the test stops measuring voice.
 - Filler and connective words they actually use.
 - **What they never do.** Write this down explicitly. The never-list carries as much weight as the do-list, and the writer will violate it if you don't.
 
-Write the profile in the user's own language. Show it to them before saving – they'll correct it, and the correction itself is more signal.
+Write the profile in the user's own language. Show it to them before saving – they'll correct it, and the correction itself is more signal. Save it only to the user's data folder or their Project, never into the skill.

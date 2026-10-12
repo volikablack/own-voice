@@ -42,9 +42,15 @@ The engine is a calibration. It hands you a fixed, deliberately bland baseline a
 
 ## Install
 
-Skills don't sync between surfaces, so pick the one you use.
+### Via Agensi (agent connection)
 
-### Claude Code
+Get [Own Voice on Agensi](https://www.agensi.io/skills/own-voice-rewrite-text-in-your-own-voice) and use it through your Agensi agent connection. Your agent receives the skill as text and runs it from there – nothing of the skill is saved on your machine.
+
+### Alternative: local install from GitHub
+
+It's MIT, so you can also keep your own copy. Skills don't sync between surfaces, so pick the one you use.
+
+**Claude Code:**
 
 ```bash
 git clone https://github.com/volikablack/own-voice ~/.claude/skills/own-voice
@@ -52,7 +58,7 @@ git clone https://github.com/volikablack/own-voice ~/.claude/skills/own-voice
 
 Say "rewrite this in my voice" and it triggers.
 
-### claude.ai
+**claude.ai:**
 
 ```bash
 git clone https://github.com/volikablack/own-voice
@@ -61,7 +67,16 @@ cd own-voice && make zip
 
 Then: **Settings → Features → Skills → upload `dist/own-voice.zip`**
 
-Needs Pro, Max, Team or Enterprise with code execution on. Free accounts can't install custom Skills — a platform limit, not ours. Your profile goes in a Project (a skill's VM is wiped between chats); see [voice/README.md](voice/README.md).
+Needs Pro, Max, Team or Enterprise with code execution on. Free accounts can't install custom Skills – a platform limit, not ours.
+
+### Where your profile lives
+
+Either way, your profile is kept apart from the skill, so updating or reinstalling never touches it:
+
+- **Claude Code:** `~/.own-voice/profile.md` (or a folder you name).
+- **claude.ai:** a Project – the chat sandbox is wiped between chats, so the skill hands you the profile to add as Project knowledge. Pasting it into a chat works too.
+
+Had an older local install with `voice/profile.md` inside the skill folder? The skill offers to move it to `~/.own-voice/` on the next run. Details: [voice/README.md](voice/README.md).
 
 ## Use
 
@@ -124,11 +139,15 @@ own-voice/
 │   ├── tells-en.md             generic assistant patterns (English)
 │   └── tells-uk.md             generic assistant patterns (Ukrainian)
 ├── agents/
-│   └── humanize-critic.md      Claude Code: the critic as a clean-context subagent
+│   └── humanize-critic.md      optional, local installs only: the critic as a named agent
 └── voice/
-    ├── README.md               where your profile lives
+    ├── README.md               where your profile lives (outside the skill)
     └── profile.example.md      what one looks like
+
+your profile: ~/.own-voice/profile.md, or a claude.ai Project
 ```
+
+The critic runs as a clean-context subagent whenever your agent can spawn one: the skill passes it the critic rules inline, so nothing has to be installed into your agents folder.
 
 ## Want more than one voice?
 
@@ -184,9 +203,15 @@ Built by [Valeriia Chuiko](https://valeria.digital) — AI systems, agents, auto
 
 ## Встановлення
 
-Скіли не синхронізуються між поверхнями, тому бери свою.
+### Через Agensi (підключення агента)
 
-### Claude Code
+Візьми [Own Voice на Agensi](https://www.agensi.io/skills/own-voice-rewrite-text-in-your-own-voice) і користуйся через підключення агента до Agensi. Агент отримує скіл текстом і працює з нього – на твій комп'ютер нічого зі скіла не записується.
+
+### Альтернатива: локально з GitHub
+
+Це MIT, тож можна тримати свою копію. Скіли не синхронізуються між поверхнями, тому бери свою.
+
+**Claude Code:**
 
 ```bash
 git clone https://github.com/volikablack/own-voice ~/.claude/skills/own-voice
@@ -194,7 +219,7 @@ git clone https://github.com/volikablack/own-voice ~/.claude/skills/own-voice
 
 Кажеш «перепиши моїм голосом» — спрацьовує.
 
-### claude.ai
+**claude.ai:**
 
 ```bash
 git clone https://github.com/volikablack/own-voice
@@ -203,7 +228,16 @@ cd own-voice && make zip
 
 Далі: **Settings → Features → Skills → залити `dist/own-voice.zip`**
 
-Треба Pro/Max/Team/Enterprise з code execution. З безкоштовного акаунта кастомні скіли не ставляться — обмеження платформи. Профіль кладеться в Проєкт (VM скіла стирається між чатами); див. [voice/README.md](voice/README.md).
+Треба Pro/Max/Team/Enterprise з code execution. З безкоштовного акаунта кастомні скіли не ставляться – обмеження платформи.
+
+### Де живе профіль
+
+Хоч так, хоч так, профіль лежить окремо від скіла, тож оновлення чи перевстановлення його не чіпає:
+
+- **Claude Code:** `~/.own-voice/profile.md` (або папка, яку ти назвеш).
+- **claude.ai:** Проєкт – пісочниця чату стирається між чатами, тому скіл віддає профіль, а ти додаєш його в знання Проєкту. Можна й просто вставити в чат.
+
+Була стара локальна установка з `voice/profile.md` всередині папки скіла? Скіл запропонує перенести його в `~/.own-voice/` при наступному запуску. Деталі: [voice/README.md](voice/README.md).
 
 ## Як користуватись
 
