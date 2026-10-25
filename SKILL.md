@@ -70,12 +70,13 @@ Calibrate → `references/calibration.md`. Plain pass → strip the generic patt
 Same rules either way — `references/critic.md`. Only delivery changes:
 
 - **Subagents available** (Claude Code: an Agent/Task tool exists): spawn a general-purpose subagent and put everything it needs **inline in its prompt**: the full text of `references/critic.md` as you received it, then the original, the rewrite, the profile and the language. Never point it at a file path for the critic rules, and never pass your own reasoning. It boots clean and can't see the writer's thinking – the independence is structural, not a promise.
-- **No subagents** (claude.ai / elsewhere): run it as a distinct pass. Re-read `references/critic.md`, then only the original, the rewrite, and the profile – as a stranger asking "does this sound like the person in the profile, or like an assistant wearing their coat?"
+- **No subagents** (claude.ai / elsewhere): run it as a distinct pass. Re-read `references/critic.md`, then only the original, the rewrite, and the profile – as a stranger asking "does this sound like the person in the profile, or like an assistant wearing their coat?" Be honest that this pass shares the writer's context, so it's weaker than a separate subagent, most of all on smaller models (in a user's blind test on Haiku it missed a paragraph-rhythm slip that the full model's critic caught). Make up for it: check paragraph length and rhythm against the profile line by line, as its own step, before you approve.
 
 `agents/humanize-critic.md` is an optional extra for people who installed the skill locally from GitHub and copied it into their agents folder themselves. The skill never needs it and never installs it.
 
 ## Output
 
+0. **Warnings first, all in one place, above the code block.** Anything the user has to decide goes here, never below the text: a fact that doesn't add up (a date that doesn't match its weekday, a total that is off), a claim they asked you to add that you can't confirm, a line you couldn't make sound like them. Keep the text exactly as written and name the problem here. If there's nothing to flag, skip this item.
 1. The rewritten text in a **clean ``` code block** — no markdown inside, paste-ready.
 2. **In your voice:** what you changed to match them, named against profile markers. `swapped "дедлайн"→"строк" · kept your commas, dropped the em-dashes · folded the punchy ending back in the way you do`
 3. **Before → after:** two or three of the sharpest voice swaps. This is what teaches them to spot the difference themselves.
